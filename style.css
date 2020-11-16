@@ -1,4 +1,8 @@
 .checked {
     text-decoration: line-through;
     color: red;
+    
+}
+.remove {
+    visibility: hidden;
 }
