@@ -5,14 +5,18 @@ const status = document.getElementById('status');
 const percentage = document.getElementById('percentage');
 const submit = document.getElementById('submit');
 const list = document.getElementById('list');
-const alertMsg = document.getElementById('alert')
+const alertMsg = document.getElementById('alert');
+
  
-document.getElementById('submit').addEventListener('click', function(e){
-    e.preventDefault()
+submit.addEventListener('click', function(e){
+    e.preventDefault();
+    createList();
+    reset();
   });
-submit.addEventListener('click', createList);
+    
+// submit.addEventListener('click', createList);
 // resetinu inputo fieldus po submito
-submit.addEventListener('click', reset);
+// submit.addEventListener('click', reset);
 function reset(){
     // id reset uzdejau ant formos
     document.getElementById('reset').reset(); 
@@ -43,24 +47,24 @@ function createList() {
      row.appendChild(a);
 
      const b = document.createElement('td');
-     b.innerHTML = priority.value;
-        if(priority.value == 'low') {
-            b.classList.add('text-success');
-            if(priority.value == 'normal') {
-                b.classList.add('text-primary');
-            }
-        } else {
-            b.classList.add('text-danger');
+        switch(priority.value) {
+            case 'Low':
+                b.innerHTML = `<button type="text" class="btn btn-success btn-sm btn-rounded">Low</button>`;
+            break;
+            case 'Normal':
+                b.innerHTML = `<button type="text" class="btn btn-primary btn-sm btn-rounded">Normal</button>`;
+            break;
+            default:
+                b.innerHTML = `<button type="text" class="btn btn-danger btn-sm btn-rounded">High</button>`;
         }
-            
-     row.appendChild(b);
+            row.appendChild(b);
 
      const c = document.createElement('td');
-     c.innerHTML = date.value;
+     c.innerText = date.value;
      row.appendChild(c);
 
      const d = document.createElement('td');
-     d.innerHTML = status.value;
+     d.innerText = status.value;
      row.appendChild(d);
 
      const e = document.createElement('td');
@@ -96,18 +100,25 @@ function createList() {
      const delete1 = document.createElement('input');
      delete1.setAttribute('type', 'button');
      delete1.setAttribute('value', 'Delete');
+     delete1.setAttribute('data-dismiss', 'alert');
      row.appendChild(deleteBtn);
      deleteBtn.appendChild(delete1);
 
      delete1.addEventListener('click', e => e.preventDefault());
      delete1.addEventListener('click', function(){
          console.log(list);
-         list.removeChild(list.childNodes[0]);
+         if(check.checked) {
+            list.removeChild(list.childNodes[0]);
+         } else {
+             alert('Isbrauk pries istrindamas');
+         }   
      });
-
-     
-    } else  {
-        alert('Fill all Fields')
+  
+    } else {
+        // patikrinti ar yra klase show, ir jei yra tada ja removinti!!
+        // klausimas neisprestas iki galo, reiktu po submito panaikinti klase show
+        alertMsg.classList.toggle('show');
+        // alert('Fill all Fields')
         return;
     }
 }
